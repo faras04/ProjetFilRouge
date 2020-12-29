@@ -8,7 +8,9 @@ volumes:
   cassandra2_data:
     driver: local
   zeppelin_notebook:
+    driver: local
   hdfs_workspace:
+    driver: local
   
 
 services:
@@ -50,9 +52,9 @@ services:
     networks:
       - localnet
     volumes: 
-      - ./hdfs_workspace:/hadoop/dfs
+      - ./hdfs_workspace:/user/cloudera/data:rw
       - ./jupyter_notebook/shared:/home/jovyan/work
-      - ./zeppelin/notebook:/usr/lib/zeppelin/notebook
+      - ./zeppelin/notebook:/zeppelin/notebook:rw
 
       
   jupyter:
@@ -96,7 +98,7 @@ services:
       - 4040:4040
     volumes:
 #      - ./hdfs_workspace:/hadoop/dfs
-      - ./zeppelin/notebook:/usr/lib/zeppelin/notebook
+      - ./zeppelin/notebook:/zeppelin/notebook:rw
     depends_on:
       - cloudera
     networks:
@@ -115,7 +117,7 @@ services:
       - 8081:8081
     volumes:
       - ./jupyter_notebook/shared:/home/jovyan/work
-      - ./zeppelin/notebook:/usr/lib/zeppelin/notebook
+      - ./zeppelin/notebook:/zeppelin/notebook
     depends_on:
       - cloudera
     networks:
@@ -131,7 +133,7 @@ services:
       - 8082:8081
     volumes:
       - ./jupyter_notebook/shared:/home/jovyan/work
-      - ./zeppelin/notebook:/usr/lib/zeppelin/notebook
+      - ./zeppelin/notebook:/zeppelin/notebook
     depends_on:
       - cloudera
     networks:
