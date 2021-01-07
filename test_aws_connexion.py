@@ -4,9 +4,9 @@ from boto3.session import Session
 import pandas as pd
 import os
 
-ACCESS_KEY = 'AKIAYVBXW3CK2NZVDC7X'
-SECRET_KEY = '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'
-BUCKET_NAME = "farasbuckettest"
+ACCESS_KEY = ''
+SECRET_KEY = ''
+BUCKET_NAME = ""
 
 s3_resource = boto3.resource(service_name='s3',
     region_name='eu-west-3',aws_access_key_id=ACCESS_KEY,
