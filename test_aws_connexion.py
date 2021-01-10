@@ -37,7 +37,7 @@ def download_rep_from_s3(s3_client,bucketName, path_in_s3):
 
 def upload_files_from_local_to_s3(s3_resource, bucketName, local_path,s3_path):
     """
-    Fonction permettant de charger les fichiers local vers AWS S3
+    Fonction permettant de charger les fichiers en local vers AWS S3
     avec le meme arborescence
     """
     bucket = s3_resource.Bucket(bucketName)
@@ -48,8 +48,15 @@ def upload_files_from_local_to_s3(s3_resource, bucketName, local_path,s3_path):
             with open(full_path, 'rb') as data:
                 #print(data)
                 #print(data)
-                bucket.put_object(Key= os.path.join(s3_path,full_path[len(local_path)+1:]), Body=data)
-                #print("file %s ok" %(file))
+                key = os.path.join(s3_path,full_path[len(local_path)+1:])
+                objs = list(bucket.objects.filter(Prefix=key))
+                #print(objs[0].key)
+                if ([w.key == s3_path for w in objs]):
+                    print("The file %s already exists!" %(objs[0].key) )
+                    
+                else:
+                    print("The file %s doesn't exist so it will create" %(objs[0].key))
+                    bucket.put_object(Key= os.path.join(s3_path,full_path[len(local_path)+1:]), Body=data)
                 
 #Test connexion                 
 clientResponse = s3_client.list_buckets()
